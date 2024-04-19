@@ -18,7 +18,6 @@
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt comp rctl
 )
-
 (deflayer default
   @x   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -36,7 +35,14 @@
   _    _    _  mmid   _    _    _    _    _    _    _    _
   _    _    @scrll         @fms           _    _    _
 )
-
+(deflayer mouse-move-slow
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _  mrgt @mmu  mlft  _    _    _    _    _    _    _    _    _    _
+  _    @mml @mmd @mmr _    _    _    _    _    _    _    _    _
+  _    _    _  mmid   _    _    _    _    _    _    _    _
+  _    _    @scrll         @fms           _    _    _
+)
 (deflayer mouse-scroll
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
@@ -45,7 +51,6 @@
   _    _    _  mmid   _    _    _    _    _    _    _    _
   _    _    _              _              _    _    _
 )
-
 ;; lrld : live reload
 (deflayer extras
   _   lrld  _    _    _    _    _    _    _    _    _    _    _
@@ -55,17 +60,15 @@
   _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _              _              _    _    _
 )
-
 (deflayer vim-style
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _   end   _    _    _    _    _   home  _    _    _
-  _    _ C-rght  _   C-y   _  @ynk  C-z  @ins  _  S-ins  _    _    _
-  @esc _    _   C-x   _    _  left  down  up  rght  _    _    _
-  _    _    del  _  @vsm C-left _    _    _    _    _    _
+  _    _  C-rght _   C-y   _  @ynk  C-z  @ins  _  S-ins  _    _    _
+  @esc _  C-x    _    _    _  left  down  up  rght  _    _    _
+  _    _  @dlt   _  @vsm C-left _    _    _    _    _    _
   _    _    _              _              _    _    _
 
 )
-
 (deflayer numpad
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    nlck kp/  kp*  kp-  _    _    _    _    _    _    _    _    _
@@ -74,8 +77,6 @@
   _    kp1  kp2  kp3  kprt _    _    _    _    _    _    _
   _  @bld-sft @bld-ctrl      kp0          _    _    _
 )
-
-
 (deflayer blender-control
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    kp/  kp*  kp-  _    _    _    _    _    _    _    _    _
@@ -103,11 +104,12 @@
 |#
 (deffakekeys
   sft lsft
+  mms (movemouse-speed 22)
 )
 (defvar
  ;; mouse move variables
- mm_i_ms 3 ;; Interval in milliseconds
- mm_d_px 1 ;; Distance traveled per interval in pixels
+ mm_i_ms 2 ;; Interval in milliseconds
+ mm_d_px 2 ;; Distance traveled per interval in pixels
 
  ;; mouse wheel variables
  mw_i_ms 50 ;; Interval in milliseconds:
@@ -149,11 +151,12 @@
   mwr (mwheel-right $mw_i_ms $mw_d_arb)
 
   ;; accelerate mouse
-  fms (movemouse-speed 350)
+  fms (on-press-fakekey mms toggle)
 
   ;; vim style
   vsm (on-press-fakekey sft press) ;; enter visual mode
   esc (on-press-fakekey sft release) ;; exit visual mode
-  ynk (multi (release-key lsft) C-ins)
+  ynk (multi (release-key lsft) C-ins) ;; yank and release shift key
+  dlt (multi (release-key lsft) del) ;; delete and release shift key
 
 )
