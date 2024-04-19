@@ -1,0 +1,159 @@
+#|
+  read below for guide on running kanata without sudo, ignore the systemd part:
+  https://github.com/jtroo/kanata/blob/c00fcadbfe197180b40cc0114b4620351505f66c/docs/setup-linux.md
+|#
+
+
+(defcfg
+  process-unmapped-keys yes
+  linux-x11-repeat-delay-rate 300,50
+  movemouse-smooth-diagonals yes
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt comp rctl
+)
+
+(deflayer default
+  @x   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  @zx  q    w    e    r    t    y    u    i    o    p    [    ]    \
+ @nesc a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet @vim
+)
+
+(deflayer mouse-move
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _  mrgt @mmu  mlft  _    _    _    _    _    _    _    _    _    _
+  _    @mml @mmd @mmr _    _    _    _    _    _    _    _    _
+  _    _    _  mmid   _    _    _    _    _    _    _    _
+  _    _    @scrll         @fms           _    _    _
+)
+
+(deflayer mouse-scroll
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _   mrgt @mwu mlft  _    _    _    _    _    _    _    _    _    _
+  _    @mwl @mwd @mwr _    _    _    _    _    _    _    _    _
+  _    _    _  mmid   _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+;; lrld : live reload
+(deflayer extras
+  _   lrld  _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer vim-style
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _   end   _    _    _    _    _   home  _    _    _
+  _    _ C-rght  _   C-y   _  @ynk  C-z  @ins  _  S-ins  _    _    _
+  @esc _    _   C-x   _    _  left  down  up  rght  _    _    _
+  _    _    del  _  @vsm C-left _    _    _    _    _    _
+  _    _    _              _              _    _    _
+
+)
+
+(deflayer numpad
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    nlck kp/  kp*  kp-  _    _    _    _    _    _    _    _    _
+  _    kp7  kp8  kp9  kp+  _    _    _    _    _    _    _    _    _
+  _    kp4  kp5  kp6  kp.  _    _    _    _    _    _    _    _
+  _    kp1  kp2  kp3  kprt _    _    _    _    _    _    _
+  _  @bld-sft @bld-ctrl      kp0          _    _    _
+)
+
+
+(deflayer blender-control
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    kp/  kp*  kp-  _    _    _    _    _    _    _    _    _
+  _    C-kp7  C-kp8  kp9  kp+  _    _    _    _    _    _    _    _    _
+  _    C-kp4  kp5  C-kp6  kp.  _    _    _    _    _    _    _    _
+  _    C-kp1  C-kp2  C-kp3  kprt _    _    _    _    _    _    _
+  _    _    kp0              _            _    _    _
+)
+(deflayer blender-shift
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    kp/  kp*  kp-  _    _    _    _    _    _    _    _    _
+  _    S-kp7  kp8  kp9  kp+  _    _    _    _    _    _    _    _    _
+  _    S-kp4  kp5  S-kp6  kp.  _    _    _    _    _    _    _    _
+  _    S-kp1  kp2  S-kp3  kprt _    _    _    _    _    _    _
+  _    _    kp0              _            _    _    _
+)
+
+#|
+  available layer swapping keys:
+  tap once to toggle activation:
+  - super/win key
+  - 1 alt key (allow the other one to function normally in case you need to reveal a menu bar)
+  - 1 control key
+  - 1 shift key
+|#
+(deffakekeys
+  sft lsft
+)
+(defvar
+ ;; mouse move variables
+ mm_i_ms 3 ;; Interval in milliseconds
+ mm_d_px 1 ;; Distance traveled per interval in pixels
+
+ ;; mouse wheel variables
+ mw_i_ms 50 ;; Interval in milliseconds:
+ mw_d_arb 120 ;; Distance in arbitrary units
+)
+(defalias
+  ;; [ LAYER SWAPS ]
+
+  ;; mouse movement
+  zx (tap-hold-press 200 200 tab (layer-while-held mouse-move)) ;; tap for escape, hold for layer toggle
+    scrll (layer-while-held mouse-scroll)
+
+  ;; miscellaneous
+  x (tap-hold-press 200 200 caps (layer-while-held extras))
+
+  ;; vim style movement
+
+  vim (tap-hold-press 200 200 (layer-switch vim-style) rctl)
+  ins (layer-switch default)
+
+  ;; number pad w/ blender layer
+
+  nesc (tap-hold-press 200 200 esc (layer-while-held numpad))
+    bld-ctrl (layer-while-held blender-control)
+    bld-sft (layer-while-held blender-shift)
+
+  ;; [ FUNCTION ALIASES ]
+
+  ;; mouse movement
+  mmu (movemouse-up $mm_i_ms $mm_d_px)
+  mml (movemouse-left $mm_i_ms $mm_d_px)
+  mmd (movemouse-down $mm_i_ms $mm_d_px)
+  mmr (movemouse-right $mm_i_ms $mm_d_px)
+
+  ;; scroll
+  mwu (mwheel-up $mw_i_ms $mw_d_arb)
+  mwd (mwheel-down $mw_i_ms $mw_d_arb)
+  mwl (mwheel-left $mw_i_ms $mw_d_arb)
+  mwr (mwheel-right $mw_i_ms $mw_d_arb)
+
+  ;; accelerate mouse
+  fms (movemouse-speed 350)
+
+  ;; vim style
+  vsm (on-press-fakekey sft press) ;; enter visual mode
+  esc (on-press-fakekey sft release) ;; exit visual mode
+  ynk (multi (release-key lsft) C-ins)
+
+)
