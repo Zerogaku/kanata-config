@@ -160,6 +160,9 @@
   dlt (multi (release-key lsft) del) ;; delete and release shift key
 
   ;; firefox
-  ffe (tap-hold-press 100 200 (tap-dance 200 (C-l f6)) lsft)
+  ;; place tap-hold inside multi to prevent repeated key presses like "ww" when pressing "w" once
+  ;; read https://github.com/jtroo/kanata/discussions/422
+  ;; and https://github.com/jtroo/kanata/blob/main/docs/config.adoc#tap-hold
+  ffe (multi f24 (tap-hold-press 100 200 (tap-dance 200 (C-l f6)) lsft))
 
 )
