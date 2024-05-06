@@ -18,24 +18,20 @@
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt comp rctl
 )
+
+;; default layer
 (deflayer default
   @x   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   @zx  q    w    e    r    t    y    u    i    o    p    [    ]    \
  @nesc a    s    d    f    g    h    j    k    l    ;    '    ret
-  @ffe z    x    c    v    b    n    m    ,    .    /    rsft
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet @vim
 )
 
+;; [ FUNCTIONALITY LAYERS ]
+
 (deflayer mouse-move
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _  mrgt @mmu  mlft  _    _    _    _    _    _    _    _    _    _
-  _    @mml @mmd @mmr _    _    _    _    _    _    _    _    _
-  _    _    _  mmid   _    _    _    _    _    _    _    _
-  _    _    @scrll         @fms           _    _    _
-)
-(deflayer mouse-move-slow
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _  mrgt @mmu  mlft  _    _    _    _    _    _    _    _    _    _
@@ -92,6 +88,18 @@
   _    S-kp4  kp5  S-kp6  kp.  _    _    _    _    _    _    _    _
   _    S-kp1  kp2  S-kp3  kprt _    _    _    _    _    _    _
   _    _    kp0              _            _    _    _
+)
+
+;; [ APPLICATION LAYERS ]
+
+;; firefox
+(deflayer firefox
+  @x   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  @zx  q    w    e    r    t    y    u    i    o    p    [    ]    \
+ @nesc a    s    d    f    g    h    j    k    l    ;    '    ret
+  @ffe z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet @vim
 )
 
 #|
@@ -163,6 +171,14 @@
   ;; place tap-hold inside multi to prevent repeated key presses like "ww" when pressing "w" once
   ;; read https://github.com/jtroo/kanata/discussions/422
   ;; and https://github.com/jtroo/kanata/blob/main/docs/config.adoc#tap-hold
-  ffe (multi f24 (tap-hold-press 100 200 (tap-dance 200 (C-l f6)) lsft))
+  ;; ffe (multi f24 (tap-hold-press 100 200 (tap-dance 200 (C-l f6)) lsft))
 
+ ffe (switch
+    ((and (input-history real lctl 3)
+          (input-history real l    2)
+    )) c break
+    () (multi f24 (tap-hold-press 100 200
+         (tap-dance-eager 1000 (C-l f6)) lsft))
+       break
+  )
 )
