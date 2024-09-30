@@ -98,12 +98,12 @@
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   @zx  q    w    e    r    t    y    u    i    o    p    [    ]    \
  @nesc a    s    d    f    g    h    j    k    l    ;    '    ret
-  @ffe z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rmet @vim
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            @ffe rmet @vim
 )
 
 #|
-  available layer swapping keys:
+  available/unused layer swapping keys:
   tap once to toggle activation:
   - super/win key
   - 1 alt key (allow the other one to function normally in case you need to reveal a menu bar)
@@ -173,12 +173,19 @@
   ;; and https://github.com/jtroo/kanata/blob/main/docs/config.adoc#tap-hold
   ;; ffe (multi f24 (tap-hold-press 100 200 (tap-dance 200 (C-l f6)) lsft))
 
+;; ffe (switch
+;;    ((and (input-history real lctl 3)
+;;          (input-history real l    2)
+;;    )) c break
+;;    () (multi f24 (tap-hold-press 100 200
+;;         (tap-dance-eager 1000 (C-l f6)) ralt))
+;;       break
+;;  )
  ffe (switch
-    ((and (input-history real lctl 3)
-          (input-history real l    2)
+    ((and (input-history real f6 2)
     )) c break
     () (multi f24 (tap-hold-press 100 200
-         (tap-dance-eager 1000 (C-l f6)) lsft))
+         (tap-dance-eager 1000 (f6 f6)) ralt))
        break
   )
 )
